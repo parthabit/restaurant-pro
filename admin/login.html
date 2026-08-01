@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login — High Garden</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700&family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="../assets/css/style.css">
+<style>
+  body{ display:flex; align-items:center; justify-content:center; min-height:100vh; cursor:auto; }
+  .login-card{ width:min(420px,90vw); padding:50px 44px; border-radius:var(--radius); }
+  .login-card .brand{ justify-content:center; margin-bottom:8px; font-size:24px; }
+  .login-card .sub{ text-align:center; color:var(--muted); font-size:13.5px; margin-bottom:36px; }
+  .hint{ margin-top:22px; text-align:center; font-size:12.5px; color:var(--muted-soft); }
+  .hint b{ color:var(--gold-soft); }
+  .err{ color:#f3a0a0; font-size:13px; margin-bottom:16px; display:none; text-align:center; }
+</style>
+</head>
+<body>
+<div class="login-card glass">
+  <div class="brand" style="display:flex;"><span class="mk">✦</span>High Garden</div>
+  <p class="sub">Admin Dashboard</p>
+  <p class="err" id="err">Incorrect email or password.</p>
+  <form id="loginForm">
+    <div class="field"><label>Email</label><input type="email" id="email" required placeholder="admin@highgarden.in" value="admin@highgarden.in"></div>
+    <div class="field"><label>Password</label><input type="password" id="password" required placeholder="••••••••" value="highgarden123"></div>
+    <button type="submit" class="btn btn-gold" style="width:100%; justify-content:center;">Sign In</button>
+  </form>
+  <p class="hint">Demo credentials pre-filled — <b>admin@highgarden.in / highgarden123</b><br>This is a static front-end demo; connect Firebase or your API for real authentication.</p>
+  <p class="hint" style="margin-top:14px;"><a href="../index.html" style="color:var(--muted);"><i class="fa-solid fa-arrow-left"></i> Back to website</a></p>
+</div>
+<script>
+  document.getElementById('loginForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    const pass = document.getElementById('password').value.trim();
+    if(email === 'admin@highgarden.in' && pass === 'highgarden123'){
+      sessionStorage.setItem('hg-admin-auth', '1');
+      window.location.href = 'index.html';
+    } else {
+      document.getElementById('err').style.display = 'block';
+    }
+  });
+</script>
+</body>
+</html>

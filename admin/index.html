@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard — High Garden</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body class="admin-body">
+
+<aside class="admin-sidebar glass" id="sidebar">
+  <a href="../index.html" class="brand"><span class="mk">✦</span>High Garden</a>
+  <nav class="admin-nav" id="adminNav">
+    <div class="navgroup">Overview</div>
+    <a href="#dashboard" data-sec="dashboard" class="active"><i class="fa-solid fa-chart-pie"></i>Dashboard</a>
+    <a href="#reservations" data-sec="reservations"><i class="fa-solid fa-calendar-check"></i>Reservations</a>
+    <div class="navgroup">Content</div>
+    <a href="#menu" data-sec="menu"><i class="fa-solid fa-utensils"></i>Manage Menu</a>
+    <a href="#gallery" data-sec="gallery"><i class="fa-solid fa-images"></i>Manage Gallery</a>
+    <a href="#events" data-sec="events"><i class="fa-solid fa-champagne-glasses"></i>Manage Events</a>
+    <div class="navgroup">Community</div>
+    <a href="#reviews" data-sec="reviews"><i class="fa-solid fa-star"></i>Customer Reviews</a>
+    <a href="#newsletter" data-sec="newsletter"><i class="fa-solid fa-envelope"></i>Newsletter</a>
+    <div class="navgroup">System</div>
+    <a href="#settings" data-sec="settings"><i class="fa-solid fa-gear"></i>Settings</a>
+    <a href="#analytics" data-sec="analytics"><i class="fa-solid fa-chart-line"></i>Analytics</a>
+    <a href="#profile" data-sec="profile"><i class="fa-solid fa-user"></i>Profile</a>
+  </nav>
+  <div class="sidebar-foot">
+    <a href="#" id="logoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i>&nbsp; Logout</a>
+  </div>
+</aside>
+
+<main class="admin-main">
+  <div class="admin-topbar">
+    <div style="display:flex; align-items:center; gap:14px;">
+      <button class="iconbtn" id="sidebarToggle" style="display:none;"><i class="fa-solid fa-bars"></i></button>
+      <h1 id="pageTitle">Dashboard</h1>
+    </div>
+    <div class="topbar-actions">
+      <button class="iconbtn" id="modeToggle" aria-label="Toggle theme"><i class="fa-solid fa-sun"></i></button>
+      <button class="iconbtn notif-btn" id="notifBtn"><i class="fa-solid fa-bell"></i><span class="notif-dot" id="notifDot"></span></button>
+      <div class="profile-chip">
+        <img src="https://lh3.googleusercontent.com/p/AF1QipOe_LCqstDulzU8x42-kpo7PLwGYdrqlNm1ZfoM=s80" alt="Admin avatar">
+        <span>Abhishek</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="admin-content">
+
+    <!-- DASHBOARD -->
+    <section class="admin-section active" id="sec-dashboard">
+      <div class="kpi-grid">
+        <div class="kpi-card glass">
+          <div class="top"><div class="icon"><i class="fa-solid fa-calendar-day"></i></div><span class="trend" id="kpiTodayTrend">—</span></div>
+          <div class="val" id="kpiToday">0</div><div class="lbl">Today's Reservations</div>
+        </div>
+        <div class="kpi-card glass">
+          <div class="top"><div class="icon"><i class="fa-solid fa-calendar-check"></i></div><span class="trend up">All-time</span></div>
+          <div class="val" id="kpiTotal">0</div><div class="lbl">Total Reservations</div>
+        </div>
+        <div class="kpi-card glass">
+          <div class="top"><div class="icon"><i class="fa-solid fa-eye"></i></div><span class="trend up">+12.4%</span></div>
+          <div class="val" id="kpiVisitors">0</div><div class="lbl">Today's Visitors (demo)</div>
+        </div>
+        <div class="kpi-card glass">
+          <div class="top"><div class="icon"><i class="fa-solid fa-indian-rupee-sign"></i></div><span class="trend up">+8.1%</span></div>
+          <div class="val" id="kpiRevenue">₹0</div><div class="lbl">Revenue Today (demo)</div>
+        </div>
+      </div>
+
+      <div class="panel-grid">
+        <div class="panel glass">
+          <h3>Reservations — Last 7 Days</h3>
+          <canvas id="chartWeek" height="120"></canvas>
+        </div>
+        <div class="panel glass">
+          <h3>Occasion Split</h3>
+          <canvas id="chartOccasion" height="120"></canvas>
+        </div>
+      </div>
+
+      <div class="panel glass">
+        <h3>Recent Reservation Requests <a href="#reservations" data-sec="reservations" class="btn btn-ghost btn-sm">View All</a></h3>
+        <table class="admin-table">
+          <thead><tr><th>Guest</th><th>Date &amp; Time</th><th>Guests</th><th>Occasion</th><th>Status</th></tr></thead>
+          <tbody id="recentResBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- RESERVATIONS -->
+    <section class="admin-section" id="sec-reservations">
+      <div class="toolbar">
+        <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="resSearch" placeholder="Search by name or phone…"></div>
+        <button class="btn btn-ghost btn-sm" id="clearResBtn"><i class="fa-solid fa-trash"></i> Clear Demo Data</button>
+      </div>
+      <div class="panel glass">
+        <h3>Reservation Requests</h3>
+        <table class="admin-table">
+          <thead><tr><th>Guest</th><th>Contact</th><th>Date &amp; Time</th><th>Guests</th><th>Occasion</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="allResBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- MENU -->
+    <section class="admin-section" id="sec-menu">
+      <div class="toolbar">
+        <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="menuAdminSearch" placeholder="Search dishes…"></div>
+        <button class="btn btn-gold btn-sm" id="addDishBtn"><i class="fa-solid fa-plus"></i> Add Dish</button>
+      </div>
+      <div class="admin-grid-cards" id="dishCardGrid"></div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="admin-section" id="sec-gallery">
+      <div class="toolbar">
+        <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="galAdminSearch" placeholder="Search photos…"></div>
+        <button class="btn btn-gold btn-sm" id="addPhotoBtn"><i class="fa-solid fa-plus"></i> Upload Photo</button>
+      </div>
+      <div class="admin-grid-cards" id="galCardGrid"></div>
+    </section>
+
+    <!-- EVENTS -->
+    <section class="admin-section" id="sec-events">
+      <div class="toolbar">
+        <div></div>
+        <button class="btn btn-gold btn-sm" id="addEventBtn"><i class="fa-solid fa-plus"></i> Add Event Type</button>
+      </div>
+      <div class="admin-grid-cards" id="eventCardGrid"></div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section class="admin-section" id="sec-reviews">
+      <div class="panel glass">
+        <h3>Customer Reviews <span style="font-size:12px; color:var(--muted-soft); font-weight:400;">4.4 / 5 · 1,190 on Google</span></h3>
+        <table class="admin-table">
+          <thead><tr><th>Guest</th><th>Rating</th><th>Review</th><th>Source</th></tr></thead>
+          <tbody id="reviewsBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <section class="admin-section" id="sec-newsletter">
+      <div class="panel glass">
+        <h3>Newsletter Subscribers <span id="subCount" style="font-size:12px; color:var(--muted-soft); font-weight:400;"></span></h3>
+        <table class="admin-table">
+          <thead><tr><th>Email</th><th>Subscribed On</th></tr></thead>
+          <tbody id="subsBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="admin-section" id="sec-settings">
+      <div class="panel-grid">
+        <div class="panel glass">
+          <h3>Restaurant Timings</h3>
+          <div class="field-row">
+            <div class="field"><label>Opens</label><input type="time" value="11:30"></div>
+            <div class="field"><label>Closes</label><input type="time" value="00:00"></div>
+          </div>
+          <div class="field"><label>Happy Hour Window</label><input type="text" value="12:00 PM – 7:00 PM"></div>
+          <button class="btn btn-gold btn-sm" onclick="alert('Timings saved (demo).')">Save Timings</button>
+        </div>
+        <div class="panel glass">
+          <h3>Promo Banner</h3>
+          <div class="field"><label>Banner Text</label><input type="text" value="Happy Hours daily, 12 noon – 7 PM — 2-for-1 on draught beer."></div>
+          <div class="settings-row"><div><div class="lbl">Show banner on site</div><div class="sub">Displays a bar above the header</div></div><label class="toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+          <div class="settings-row"><div><div class="lbl">Live music badge</div><div class="sub">Show "Live Music" tag in hero</div></div><label class="toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+          <div class="settings-row"><div><div class="lbl">Accept online reservations</div><div class="sub">Enable the booking form</div></div><label class="toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+          <button class="btn btn-gold btn-sm" style="margin-top:16px;" onclick="alert('Settings saved (demo).')">Save Settings</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANALYTICS -->
+    <section class="admin-section" id="sec-analytics">
+      <div class="panel-grid">
+        <div class="panel glass"><h3>Reservations by Occasion</h3><canvas id="chartOccasion2" height="140"></canvas></div>
+        <div class="panel glass"><h3>Guest Party Size</h3><canvas id="chartPartySize" height="140"></canvas></div>
+      </div>
+      <div class="panel glass"><h3>Reservations Trend (30 days, demo)</h3><canvas id="chartTrend" height="90"></canvas></div>
+    </section>
+
+    <!-- PROFILE -->
+    <section class="admin-section" id="sec-profile">
+      <div class="panel glass" style="max-width:520px;">
+        <h3>Profile</h3>
+        <div class="field"><label>Name</label><input type="text" value="Abhishek"></div>
+        <div class="field"><label>Email</label><input type="email" value="admin@highgarden.in"></div>
+        <div class="field"><label>Role</label><input type="text" value="Owner / Administrator" disabled></div>
+        <button class="btn btn-gold btn-sm" onclick="alert('Profile updated (demo).')">Save Changes</button>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- Dish modal -->
+<div class="modal-form" id="dishModal">
+  <div class="box glass">
+    <span class="modal-close" data-close="dishModal"><i class="fa-solid fa-xmark"></i></span>
+    <h3 id="dishModalTitle">Add Dish</h3>
+    <form id="dishForm">
+      <input type="hidden" id="dishIndex">
+      <div class="field"><label>Dish Name</label><input type="text" id="dName" required></div>
+      <div class="field-row">
+        <div class="field"><label>Category</label>
+          <select id="dCat" required>
+            <option>North Indian</option><option>Chinese</option><option>Italian</option><option>Continental</option>
+            <option>Biryani</option><option>Kebabs</option><option>Desserts</option><option>Cocktails</option>
+          </select>
+        </div>
+        <div class="field"><label>Price (₹)</label><input type="number" id="dPrice" required></div>
+      </div>
+      <div class="field"><label>Image URL</label><input type="url" id="dImg" placeholder="https://…" required></div>
+      <div class="field"><label>Description</label><textarea id="dDesc"></textarea></div>
+      <div class="field-row">
+        <div class="field"><label>Type</label>
+          <select id="dVeg"><option value="true">Vegetarian</option><option value="false">Non-Vegetarian</option></select>
+        </div>
+        <div class="field"><label>Tag</label>
+          <select id="dTag"><option value="">None</option><option value="popular">Popular</option><option value="bestseller">Best Seller</option><option value="chef">Chef Special</option></select>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-gold" style="width:100%; justify-content:center;">Save Dish</button>
+    </form>
+  </div>
+</div>
+
+<!-- Photo modal -->
+<div class="modal-form" id="photoModal">
+  <div class="box glass">
+    <span class="modal-close" data-close="photoModal"><i class="fa-solid fa-xmark"></i></span>
+    <h3>Upload Photo</h3>
+    <form id="photoForm">
+      <div class="field"><label>Image URL</label><input type="url" id="pImg" required placeholder="https://…"></div>
+      <div class="field"><label>Caption</label><input type="text" id="pCap" required></div>
+      <div class="field"><label>Category</label>
+        <select id="pCat"><option>food</option><option>drinks</option><option>interior</option><option>exterior</option><option>people</option><option>night</option></select>
+      </div>
+      <button type="submit" class="btn btn-gold" style="width:100%; justify-content:center;">Save Photo</button>
+    </form>
+  </div>
+</div>
+
+<!-- Event modal -->
+<div class="modal-form" id="eventModal">
+  <div class="box glass">
+    <span class="modal-close" data-close="eventModal"><i class="fa-solid fa-xmark"></i></span>
+    <h3>Add Event Type</h3>
+    <form id="eventForm">
+      <div class="field"><label>Event Name</label><input type="text" id="eName" required></div>
+      <div class="field"><label>Description</label><textarea id="eDesc" required></textarea></div>
+      <div class="field"><label>Icon (Font Awesome class)</label><input type="text" id="eIcon" placeholder="fa-solid fa-cake-candles" value="fa-solid fa-champagne-glasses"></div>
+      <button type="submit" class="btn btn-gold" style="width:100%; justify-content:center;">Save Event</button>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<script src="../assets/js/admin.js"></script>
+</body>
+</html>

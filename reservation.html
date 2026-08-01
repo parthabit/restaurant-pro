@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Reserve a table at High Garden — Pune's rooftop fine-dining restaurant on Senapati Bapat Road.">
+<title>Reservation — High Garden</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+  .res-wrap{ display:grid; grid-template-columns:1fr 1fr; gap:0; border-radius:var(--radius); overflow:hidden; }
+  .res-side{ position:relative; min-height:100%; }
+  .res-side img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .res-side .scrim{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(5,5,5,0.2), rgba(5,5,5,0.9)); }
+  .res-side .content{ position:relative; padding:60px; height:100%; display:flex; flex-direction:column; justify-content:flex-end; }
+  .res-side .content .row{ display:flex; gap:14px; align-items:center; margin-bottom:16px; color:var(--muted); font-size:14px; }
+  .res-side .content .row i{ color:var(--gold); width:16px; }
+  @media (max-width:900px){ .res-wrap{ grid-template-columns:1fr; } .res-side{ min-height:280px; } }
+</style>
+</head>
+<body>
+
+<div id="loader"><div class="loader-mark">High Garden</div><div class="loader-bar"><span></span></div></div>
+<div id="cursorDot"></div><div id="cursorRing"></div>
+<div id="scrollProgress"></div>
+
+<header id="siteHeader">
+  <div class="container">
+    <nav class="navwrap">
+      <a href="index.html" class="brand"><span class="mk">✦</span>High Garden</a>
+      <div class="navlinks" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="menu.html">Menu</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="events.html">Events</a>
+        <a href="reservation.html" class="active">Reservation</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="navcta">
+        <button class="iconbtn" id="modeToggle" aria-label="Toggle theme"><i class="fa-solid fa-sun"></i></button>
+        <button class="navtoggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section style="padding-top:170px;">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Reserve Your Table</p>
+      <h2>Save your evening<br>on the terrace.</h2>
+      <p>Fill in your details below — we'll confirm by phone or WhatsApp. For parties of 15 or more, please call the events team directly.</p>
+    </div>
+
+    <div class="res-wrap glass reveal">
+      <div class="res-side">
+        <img src="https://lh3.googleusercontent.com/p/AF1QipNdCz54hQxYZ9K5PTa8CyTStnbzg_vbqmt-QNQv=s900" alt="High Garden terrace at night">
+        <div class="scrim"></div>
+        <div class="content">
+          <div class="row"><i class="fa-regular fa-clock"></i>Open daily, 11:30 AM – 12:00 AM</div>
+          <div class="row"><i class="fa-solid fa-location-dot"></i>8th Floor, Next Gen Avenue, SB Road, Shivajinagar</div>
+          <div class="row"><i class="fa-solid fa-phone"></i><a href="tel:+917558202453">+91 75582 02453</a></div>
+          <div class="row"><i class="fa-brands fa-whatsapp"></i><a href="https://wa.me/917558202453" target="_blank" rel="noopener">Message us on WhatsApp</a></div>
+        </div>
+      </div>
+      <div class="form-panel">
+        <form id="resForm">
+          <div class="field-row">
+            <div class="field"><label>Full Name</label><input type="text" name="name" required placeholder="Your name"></div>
+            <div class="field"><label>Phone</label><input type="tel" name="phone" required placeholder="+91"></div>
+          </div>
+          <div class="field"><label>Email</label><input type="email" name="email" required placeholder="you@example.com"></div>
+          <div class="field-row">
+            <div class="field"><label>Date</label><input type="date" name="date" required></div>
+            <div class="field"><label>Time</label><input type="time" name="time" required></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>Guests</label>
+              <select name="guests" required>
+                <option value="">Select</option>
+                <option>1–2</option><option>3–4</option><option>5–8</option><option>9–14</option><option>15+ (call us)</option>
+              </select>
+            </div>
+            <div class="field"><label>Occasion</label>
+              <select name="occasion">
+                <option value="">General dining</option>
+                <option>Birthday</option><option>Anniversary</option><option>Corporate</option><option>Date Night</option><option>Private Event</option>
+              </select>
+            </div>
+          </div>
+          <div class="field"><label>Special Requests</label><textarea name="message" placeholder="Seating preference, dietary needs, celebration details…"></textarea></div>
+          <button type="submit" class="btn btn-gold magnetic" style="width:100%; justify-content:center;">Reserve Table <i class="fa-solid fa-champagne-glasses"></i></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer style="margin-top:100px;">
+  <div class="container">
+    <div class="footer-bottom" style="border-top:1px solid var(--glass-border);">
+      <span>© <span id="yr"></span> High Garden — Shivajinagar, Pune 411016.</span>
+      <span><a href="tel:+917558202453">+91 75582 02453</a></span>
+    </div>
+  </div>
+</footer>
+
+<div id="confirmModal">
+  <div class="modal-card glass">
+    <i class="fa-solid fa-circle-check"></i>
+    <h3>Table Reserved</h3>
+    <p id="confirmDetail">We've received your request and will confirm shortly by phone or WhatsApp.</p>
+    <a href="index.html" class="btn btn-gold magnetic" style="width:100%; justify-content:center;">Back to Home</a>
+  </div>
+</div>
+
+<script src="assets/js/main.js"></script>
+<script>
+  const form = document.getElementById('resForm');
+  const modal = document.getElementById('confirmModal');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(form).entries());
+    data.id = 'RES-' + Date.now();
+    data.createdAt = new Date().toISOString();
+    data.status = 'pending';
+    const existing = JSON.parse(localStorage.getItem('hg-reservations') || '[]');
+    existing.unshift(data);
+    localStorage.setItem('hg-reservations', JSON.stringify(existing));
+    document.getElementById('confirmDetail').textContent = `${data.name}, your table for ${data.guests} on ${data.date} at ${data.time} is on its way to confirmation. This is a demo booking form — for real reservations, please also call +91 75582 02453.`;
+    modal.classList.add('open');
+    form.reset();
+  });
+  document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Explore High Garden's full menu — North Indian, Chinese, Italian, Continental, Biryani, Kebabs, Desserts and Cocktails, served on Pune's premier rooftop.">
+<title>Menu — High Garden</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+  .menu-toolbar{ display:flex; gap:20px; align-items:center; flex-wrap:wrap; margin-bottom:30px; }
+  .search-box{ flex:1; min-width:240px; display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); border:1px solid var(--glass-border); border-radius:100px; padding:13px 22px; }
+  .search-box input{ background:none; border:none; color:var(--white); flex:1; font-size:14px; }
+  .search-box input:focus{ outline:none; }
+  .search-box i{ color:var(--gold); }
+  .tabs{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:40px; }
+  .tabs button{ padding:11px 22px; border-radius:100px; border:1px solid var(--glass-border); background:var(--glass); color:var(--muted); font-family:'Poppins'; font-size:12px; letter-spacing:0.05em; text-transform:uppercase; transition:.3s; }
+  .tabs button.active, .tabs button:hover{ border-color:var(--gold); color:var(--gold-soft); background:rgba(212,175,55,0.1); }
+  .menu-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  @media (max-width:960px){ .menu-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:640px){ .menu-grid{ grid-template-columns:1fr; } }
+  .m-card{ border-radius:var(--radius); overflow:hidden; position:relative; }
+  .m-card .imgwrap{ height:190px; position:relative; overflow:hidden; }
+  .m-card .imgwrap img{ width:100%; height:100%; object-fit:cover; transition:transform .6s var(--ease); }
+  .m-card:hover .imgwrap img{ transform:scale(1.08); }
+  .m-card .info{ padding:22px 22px 24px; }
+  .m-card .cat{ font-family:'Poppins'; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted-soft); }
+  .m-card h3{ font-size:19px; margin:8px 0 8px; }
+  .m-card p{ font-size:13px; color:var(--muted); font-weight:300; margin-bottom:16px; min-height:36px; }
+  .m-card .foot{ display:flex; justify-content:space-between; align-items:center; }
+  .m-card .price{ font-family:'Playfair Display'; color:var(--gold-soft); font-size:19px; }
+  .empty-state{ text-align:center; padding:80px 0; color:var(--muted); display:none; }
+</style>
+</head>
+<body>
+
+<div id="loader"><div class="loader-mark">High Garden</div><div class="loader-bar"><span></span></div></div>
+<div id="cursorDot"></div><div id="cursorRing"></div>
+<div id="scrollProgress"></div>
+
+<header id="siteHeader">
+  <div class="container">
+    <nav class="navwrap">
+      <a href="index.html" class="brand"><span class="mk">✦</span>High Garden</a>
+      <div class="navlinks" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="menu.html" class="active">Menu</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="events.html">Events</a>
+        <a href="reservation.html">Reservation</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="navcta">
+        <button class="iconbtn" id="modeToggle" aria-label="Toggle theme"><i class="fa-solid fa-sun"></i></button>
+        <a href="reservation.html" class="btn btn-gold btn-sm magnetic">Reserve</a>
+        <button class="navtoggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section style="padding-top:170px; padding-bottom:60px;">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">The Full Menu</p>
+      <h2>Eight cuisines' worth<br>of favourites.</h2>
+      <p>Search by name, or filter by kitchen. Veg and non-veg are marked on every card, prices are per plate.</p>
+    </div>
+    <div class="menu-toolbar reveal">
+      <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="menuSearch" type="text" placeholder="Search dishes — e.g. biryani, naan, cocktail…"></div>
+    </div>
+    <div class="tabs reveal" id="tabRow">
+      <button class="active" data-cat="all">All</button>
+      <button data-cat="North Indian">North Indian</button>
+      <button data-cat="Chinese">Chinese</button>
+      <button data-cat="Italian">Italian</button>
+      <button data-cat="Continental">Continental</button>
+      <button data-cat="Biryani">Biryani</button>
+      <button data-cat="Kebabs">Kebabs</button>
+      <button data-cat="Desserts">Desserts</button>
+      <button data-cat="Cocktails">Cocktails</button>
+    </div>
+    <div class="menu-grid reveal" id="menuGrid"></div>
+    <div class="empty-state" id="emptyState"><i class="fa-solid fa-utensils" style="font-size:30px;color:var(--gold);margin-bottom:14px;display:block;"></i>No dishes match your search — try another term.</div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-bottom" style="border-top:none; padding-top:0;">
+      <span>© <span id="yr"></span> High Garden. Menu items &amp; pricing are indicative and subject to change — please confirm with staff.</span>
+      <span><a href="tel:+917558202453">+91 75582 02453</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+<script>
+const IMG = {
+  kebab:"https://lh3.googleusercontent.com/p/AF1QipPd88NXHz8zXVx3okAtz1cw-TuCrH7DZtHd2gWP=s600",
+  biryani:"https://lh3.googleusercontent.com/p/AF1QipOvs6qiuyD2g-qjSTaEhnNRCoHpzD3bV1w_E63w=s600",
+  lotus:"https://lh3.googleusercontent.com/p/AF1QipO4vN6Ff0Lu8G92LDfh0nJcoT9tSW88i1X3UVOp=s600",
+  naan:"https://lh3.googleusercontent.com/p/AF1QipPwvo_V-6S7BTPsRCxQbX08pDJpecRgMvNElu2F=s600",
+  dessert:"https://lh3.googleusercontent.com/p/AF1QipPE_F2o4UmkGom4fqrQ3q7xgBG_fTS19WbBTqND=s600",
+  bar:"https://lh3.googleusercontent.com/p/AF1QipPHwCE_N-YFIBSw32hsWkECIovQZFEdmJ2k0gIr=s600",
+  spread:"https://lh3.googleusercontent.com/p/AF1QipNgTBRqOoYcXlTdW2shMb0x0cldIAfcKy-IzUoE=s600",
+  ambience:"https://lh3.googleusercontent.com/p/AF1QipOe_LCqstDulzU8x42-kpo7PLwGYdrqlNm1ZfoM=s600",
+  table:"https://lh3.googleusercontent.com/p/AF1QipM0wCznZ9KpllZFA7KRxwUqTgSp3ksoE0yOqQ75=s600"
+};
+const DISHES = [
+  {name:"Gavti Kebab Platter", cat:"Kebabs", veg:false, tag:"popular", price:495, img:IMG.kebab, desc:"Smoked, hand-pounded spice, charred over open flame."},
+  {name:"Tandoori Prawns", cat:"Kebabs", veg:false, tag:"chef", price:625, img:IMG.kebab, desc:"Char-grilled prawns, kashmiri chilli marinade."},
+  {name:"Malai Chaap Skewers", cat:"Kebabs", veg:true, tag:"", price:385, img:IMG.kebab, desc:"Soy chaap, cream marinade, char-grilled."},
+  {name:"Prawns Matka Biryani", cat:"Biryani", veg:false, tag:"chef", price:725, img:IMG.biryani, desc:"Slow-sealed in a clay pot, finished tableside."},
+  {name:"Chicken Dum Biryani", cat:"Biryani", veg:false, tag:"popular", price:495, img:IMG.biryani, desc:"Hyderabadi-style, layered and dum-cooked."},
+  {name:"Veg Handi Biryani", cat:"Biryani", veg:true, tag:"", price:395, img:IMG.biryani, desc:"Seasonal vegetables, saffron rice, clay-pot finish."},
+  {name:"Butter Chicken", cat:"North Indian", veg:false, tag:"bestseller", price:445, img:IMG.spread, desc:"Slow-simmered tomato gravy, char-grilled chicken."},
+  {name:"Dal Makhani", cat:"North Indian", veg:true, tag:"popular", price:325, img:IMG.spread, desc:"24-hour simmered black lentils, finished with cream."},
+  {name:"Paneer Lababdar", cat:"North Indian", veg:true, tag:"", price:375, img:IMG.spread, desc:"Cottage cheese in a rich cashew-tomato gravy."},
+  {name:"Honey Chilli Lotus Stem", cat:"Chinese", veg:true, tag:"popular", price:375, img:IMG.lotus, desc:"Crisp-fried lotus root, tossed in sticky chilli glaze."},
+  {name:"Chicken Manchurian", cat:"Chinese", veg:false, tag:"bestseller", price:425, img:IMG.lotus, desc:"Wok-tossed, dark soy and garlic sauce."},
+  {name:"Veg Hakka Noodles", cat:"Chinese", veg:true, tag:"", price:295, img:IMG.lotus, desc:"Julienne vegetables, classic wok toss."},
+  {name:"Chilli Cheese Garlic Naan", cat:"Italian", veg:true, tag:"popular", price:295, img:IMG.naan, desc:"Wood-fired, molten centre, table favourite."},
+  {name:"Margherita Pizza", cat:"Italian", veg:true, tag:"", price:425, img:IMG.naan, desc:"San Marzano tomato, fior di latte, basil."},
+  {name:"Pepperoni Pizza", cat:"Italian", veg:false, tag:"bestseller", price:525, img:IMG.naan, desc:"Wood-fired, double pepperoni, oregano oil."},
+  {name:"Penne Arrabbiata", cat:"Italian", veg:true, tag:"", price:395, img:IMG.naan, desc:"Fiery tomato sauce, garlic, chilli flake."},
+  {name:"Grilled Chicken Steak", cat:"Continental", veg:false, tag:"chef", price:595, img:IMG.ambience, desc:"Herb butter, roasted vegetables, red wine jus."},
+  {name:"Mushroom Risotto", cat:"Continental", veg:true, tag:"", price:445, img:IMG.ambience, desc:"Arborio rice, wild mushroom, parmesan."},
+  {name:"Peri Peri Fries", cat:"Continental", veg:true, tag:"popular", price:225, img:IMG.ambience, desc:"Hand-cut fries, peri peri dust, garlic aioli."},
+  {name:"Chikmagalur Coffee Ice Cream", cat:"Desserts", veg:true, tag:"chef", price:325, img:IMG.dessert, desc:"Filter kapi, bittersweet, coffee crumble."},
+  {name:"Molten Chocolate Lava Cake", cat:"Desserts", veg:true, tag:"bestseller", price:295, img:IMG.dessert, desc:"Warm centre, vanilla bean ice cream."},
+  {name:"Signature Skyline Mule", cat:"Cocktails", veg:true, tag:"popular", price:495, img:IMG.bar, desc:"House gin, ginger beer, fresh lime, copper mug."},
+  {name:"Old Fashioned Terrace", cat:"Cocktails", veg:true, tag:"", price:545, img:IMG.bar, desc:"Bourbon, bitters, smoked orange peel."},
+  {name:"Hoegaarden on Tap", cat:"Cocktails", veg:true, tag:"", price:325, img:IMG.bar, desc:"Chilled draught, served with an orange wedge."},
+];
+
+const grid = document.getElementById('menuGrid');
+const empty = document.getElementById('emptyState');
+const searchInput = document.getElementById('menuSearch');
+let activeCat = 'all';
+
+function render(){
+  const q = searchInput.value.trim().toLowerCase();
+  const items = DISHES.filter(d => (activeCat==='all' || d.cat===activeCat) && d.name.toLowerCase().includes(q));
+  grid.innerHTML = items.map(d => `
+    <div class="m-card glass tilt">
+      <div class="badge">
+        <span class="${d.veg?'veg':'nonveg'}">${d.veg?'Veg':'Non-Veg'}</span>
+        ${d.tag==='popular' ? '<span class="popular">Popular</span>' : ''}
+        ${d.tag==='chef' ? '<span class="chef">Chef Special</span>' : ''}
+        ${d.tag==='bestseller' ? '<span class="popular">Best Seller</span>' : ''}
+      </div>
+      <div class="imgwrap"><img src="${d.img}" alt="${d.name}" loading="lazy"></div>
+      <div class="info">
+        <span class="cat">${d.cat}</span>
+        <h3>${d.name}</h3>
+        <p>${d.desc}</p>
+        <div class="foot"><span class="price">₹${d.price}</span><button class="fav-btn"><i class="fa-regular fa-heart"></i></button></div>
+      </div>
+    </div>
+  `).join('');
+  empty.style.display = items.length ? 'none' : 'block';
+  grid.querySelectorAll('.fav-btn').forEach(b => b.addEventListener('click', e=>{e.preventDefault(); b.classList.toggle('active');}));
+  grid.querySelectorAll('.tilt').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - 0.5, py = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = `perspective(900px) rotateX(${py*-5}deg) rotateY(${px*5}deg) translateY(-4px)`;
+    });
+    card.addEventListener('mouseleave', () => card.style.transform = 'none');
+  });
+}
+
+document.getElementById('tabRow').addEventListener('click', (e) => {
+  if(e.target.tagName !== 'BUTTON') return;
+  document.querySelectorAll('#tabRow button').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  activeCat = e.target.dataset.cat;
+  render();
+});
+searchInput.addEventListener('input', render);
+render();
+document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

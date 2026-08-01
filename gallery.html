@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Photo gallery of High Garden — rooftop skyline views, food, drinks, interiors and the terrace by night.">
+<title>Gallery — High Garden</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<div id="loader"><div class="loader-mark">High Garden</div><div class="loader-bar"><span></span></div></div>
+<div id="cursorDot"></div><div id="cursorRing"></div>
+<div id="scrollProgress"></div>
+
+<header id="siteHeader">
+  <div class="container">
+    <nav class="navwrap">
+      <a href="index.html" class="brand"><span class="mk">✦</span>High Garden</a>
+      <div class="navlinks" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="menu.html">Menu</a>
+        <a href="gallery.html" class="active">Gallery</a>
+        <a href="events.html">Events</a>
+        <a href="reservation.html">Reservation</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="navcta">
+        <button class="iconbtn" id="modeToggle" aria-label="Toggle theme"><i class="fa-solid fa-sun"></i></button>
+        <a href="reservation.html" class="btn btn-gold btn-sm magnetic">Reserve</a>
+        <button class="navtoggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section style="padding-top:170px;">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Gallery</p>
+      <h2>The terrace,<br>in every light.</h2>
+      <p>Food, drinks, interiors, exteriors and the people who make it — filter by category or click any photo to view it full-size.</p>
+    </div>
+    <div class="filter-row reveal" id="filterRow">
+      <button class="active" data-f="all">All</button>
+      <button data-f="food">Food</button>
+      <button data-f="drinks">Drinks</button>
+      <button data-f="interior">Interior</button>
+      <button data-f="exterior">Exterior</button>
+      <button data-f="people">People</button>
+      <button data-f="night">Night View</button>
+    </div>
+    <div class="masonry reveal" id="masonryGrid"></div>
+  </div>
+</section>
+
+<footer style="margin-top:100px;">
+  <div class="container">
+    <div class="footer-bottom" style="border-top:1px solid var(--glass-border);">
+      <span>© <span id="yr"></span> High Garden — Shivajinagar, Pune 411016.</span>
+      <span><a href="tel:+917558202453">+91 75582 02453</a></span>
+    </div>
+  </div>
+</footer>
+
+<div id="lightbox"><span class="lb-close" id="lbClose"><i class="fa-solid fa-xmark"></i></span><img id="lbImg" src="" alt=""></div>
+
+<script src="assets/js/main.js"></script>
+<script>
+const PHOTOS = [
+  {src:"https://lh3.googleusercontent.com/u6kPjiIsT_X1VPjlV7gAfyKYN_d-oYmPeXrls5hTv-ePSPVYnGO7bG_L0wBkAFsnE_uQ0wQvmDu-jlCAng=s1000", cat:"exterior", cap:"Rooftop skyline view", h:340},
+  {src:"https://lh3.googleusercontent.com/p/AF1QipNm-fSSVPxMK_EPerMF6ZEbEVM3lcqolz-TmZpE=s800", cat:"interior", cap:"Terrace seating", h:260},
+  {src:"https://lh3.googleusercontent.com/p/AF1QipOe_LCqstDulzU8x42-kpo7PLwGYdrqlNm1ZfoM=s800", cat:"night", cap:"Evening ambience", h:400},
+  {src:"https://lh3.googleusercontent.com/p/AF1QipPuDPY8yHBL1UGa0QF46PVSLHkJphjf6RhI1mls=s800", cat:"exterior", cap:"Golden hour terrace", h:300},
+  {src:"https://lh3.googleusercontent.com/p/AF1QipPwvo_V-6S7BTPsRCxQbX08pDJpecRgMvNElu2F=s800", cat:"food", cap:"Chilli cheese garlic naan", h:280},
+  {src:"https://lh3.googleusercontent.com/p/AF1QipPd88NXHz8zXVx3okAtz1cw-TuCrH7DZtHd2gWP=s800", cat:"drinks", cap:"Cocktail at the bar", h:360},
+  {src:"https://lh3.googleusercontent.com/p/AF1QipO4vN6Ff0Lu8G92LDfh0nJcoT9tSW88i1X3UVOp=s800", cat:"night", cap:"Rooftop by night", h:300},
+  {src:"https://lh3.googleusercontent.com/p/AF1QipNdCz54hQxYZ9K5PTa8CyTStnbzg_vbqmt-QNQv=s800", cat:"people", cap:"Guests on the terrace", h:340},
+  {src:"https://lh3.googleusercontent.com/p/AF1QipOvs6qiuyD2g-qjSTaEhnNRCoHpzD3bV1w_E63w=s800", cat:"food", cap:"Prawns matka biryani", h:260},
+  {src:"https://lh3.googleusercontent.com/p/AF1QipPE_F2o4UmkGom4fqrQ3q7xgBG_fTS19WbBTqND=s800", cat:"food", cap:"Chikmagalur coffee ice cream", h:320},
+  {src:"https://lh3.googleusercontent.com/p/AF1QipPHwCE_N-YFIBSw32hsWkECIovQZFEdmJ2k0gIr=s800", cat:"people", cap:"Live music night", h:280},
+  {src:"https://lh3.googleusercontent.com/p/AF1QipNgTBRqOoYcXlTdW2shMb0x0cldIAfcKy-IzUoE=s800", cat:"interior", cap:"Full spread, family style", h:360},
+  {src:"https://lh3.googleusercontent.com/p/AF1QipM0wCznZ9KpllZFA7KRxwUqTgSp3ksoE0yOqQ75=s800", cat:"drinks", cap:"Table for two", h:300},
+];
+
+const grid = document.getElementById('masonryGrid');
+function renderGallery(filter){
+  const items = PHOTOS.filter(p => filter==='all' || p.cat===filter);
+  grid.innerHTML = items.map(p => `
+    <div class="item reveal in" data-src="${p.src.replace('s800','s1600')}">
+      <img src="${p.src}" alt="${p.cap}" style="height:${p.h}px; object-fit:cover;" loading="lazy">
+      <div class="cap">${p.cap}</div>
+    </div>
+  `).join('');
+  grid.querySelectorAll('.item').forEach(el => el.addEventListener('click', () => openLightbox(el.dataset.src, el.querySelector('img').alt)));
+}
+renderGallery('all');
+
+document.getElementById('filterRow').addEventListener('click', (e) => {
+  if(e.target.tagName !== 'BUTTON') return;
+  document.querySelectorAll('#filterRow button').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  renderGallery(e.target.dataset.f);
+});
+
+const lb = document.getElementById('lightbox');
+const lbImg = document.getElementById('lbImg');
+function openLightbox(src, alt){ lbImg.src = src; lbImg.alt = alt; lb.classList.add('open'); }
+document.getElementById('lbClose').addEventListener('click', () => lb.classList.remove('open'));
+lb.addEventListener('click', (e) => { if(e.target === lb) lb.classList.remove('open'); });
+document.addEventListener('keydown', (e) => { if(e.key==='Escape') lb.classList.remove('open'); });
+
+document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

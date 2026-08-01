@@ -1,0 +1,23 @@
+{
+  "name": "High Garden — Rooftop Restaurant & Bar",
+  "short_name": "High Garden",
+  "description": "Pune's luxury rooftop fine-dining restaurant on Senapati Bapat Road, Shivajinagar.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#0B3D2E",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "https://lh3.googleusercontent.com/p/AF1QipOe_LCqstDulzU8x42-kpo7PLwGYdrqlNm1ZfoM=s192",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://lh3.googleusercontent.com/p/AF1QipOe_LCqstDulzU8x42-kpo7PLwGYdrqlNm1ZfoM=s512",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
