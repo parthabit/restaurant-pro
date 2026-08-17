@@ -1,4 +1,4 @@
-# High Garden — Website
+# Resturent — Website
 
 A static, multi-page luxury restaurant website (no build step, no server required).
 
